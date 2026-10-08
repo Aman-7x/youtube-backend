@@ -1,6 +1,7 @@
 import express from "express";
-import { registerUser } from "../controllers/user.controller.js";
+import { loginUser, logoutUser, refreshAccessToken, registerUser } from "../controllers/user.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
+import { verifyJWT } from "../middlewares/auth.middlware.js";
 export const userRouter = express.Router();
 
 
@@ -13,3 +14,10 @@ userRouter.post("/register",upload.fields([
         maxCount:1
     }
 ]),registerUser);
+
+
+userRouter.post("/login",loginUser);
+
+userRouter.post("/logout",verifyJWT,logoutUser);
+
+userRouter.post("/refresh-token",refreshAccessToken);
